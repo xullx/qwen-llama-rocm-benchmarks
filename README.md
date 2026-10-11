@@ -3,6 +3,7 @@ aim to improve performance using mtp on Q4 models, inspect kernel times, and opt
 this research is assisted with AI (gpt, gemini, deepseek, and occasionally claude)
 
 progress
+```
 ggml/src/ggml-cuda/
 │
 ├── mmvq.cu
@@ -45,3 +46,4 @@ ggml/src/ggml-cuda/
         ├── IQ2_XS  — Pending
         ├── Q2_K    — Pending
         └── IQ4_NL  — Pending
+```
