@@ -101,3 +101,66 @@ QWEN3.8 27B — PERFORMANCE OPTIMIZATION
     ├── ✅ Results saved independently
     └── ✅ Historical performance figures excluded
 ```
+
+update 2026-10-11
+```
+├── MTP Speculative Decoding — Draft Pipeline Optimization [ACTIVE]
+│   │
+│   ├── Objective
+│   │   ├── Target: 50 tokens/s on RX 6800 (gfx1030)
+│   │   ├── Current baseline: 45.723 tokens/s
+│   │   ├── Current cycle latency: ~54.2 ms
+│   │   ├── Target cycle latency: ~49.6 ms
+│   │   └── Preserve target-model output correctness
+│   │
+│   ├── 01. MTP Acceptance Algorithm [NEXT]
+│   │   ├── ⏳ Inspect llama.cpp speculative decoding implementation
+│   │   ├── ⏳ Identify acceptance/rejection calculations
+│   │   ├── ⏳ Verify residual probability correction
+│   │   ├── ⏳ Determine whether restricted draft support is safe
+│   │   └── ⏳ Establish correctness validation tests
+│   │
+│   ├── 02. Restricted-Vocabulary Draft Head [PLANNED]
+│   │   ├── Candidate: 32,000-token draft vocabulary
+│   │   ├── Estimated additional VRAM: ~110 MB
+│   │   ├── Existing Q5_K head: ~1.65 ms per draft
+│   │   ├── Theoretical saving: up to ~2.9 ms/cycle
+│   │   ├── ⏳ Inspect MTP draft-head implementation
+│   │   ├── ⏳ Evaluate vocabulary probability coverage
+│   │   ├── ⏳ Evaluate acceptance-rate degradation
+│   │   ├── ⏳ Investigate output-row gathering and token mapping
+│   │   └── ⏳ Benchmark against current development baseline
+│   │
+│   ├── 03. Unprofiled MTP Phase Timing [PLANNED]
+│   │   ├── ⏳ Measure target verification latency
+│   │   ├── ⏳ Measure each draft pass independently
+│   │   ├── ⏳ Measure sampling and acceptance overhead
+│   │   ├── ⏳ Measure CPU/GPU synchronization boundaries
+│   │   └── ⏳ Quantify actual idle time per cycle
+│   │
+│   ├── 04. HIP Graph Execution [PARTIALLY VERIFIED]
+│   │   ├── ✅ HIP Graphs operational
+│   │   ├── ✅ Target verification graph execution supported
+│   │   ├── ⏳ Determine whether draft passes use graphs
+│   │   ├── ⏳ Measure unprofiled graph-node overhead
+│   │   └── ⏳ Evaluate draft-side graph optimization
+│   │
+│   ├── 05. CPU/GPU Sampling Optimization [CONDITIONAL]
+│   │   ├── ⏳ Investigate draft logits readback
+│   │   ├── ⏳ Investigate device-side sampling
+│   │   ├── ⏳ Investigate h_nextn transfer path
+│   │   └── ⏳ Preserve sampling correctness
+│   │
+│   ├── 06. GPU Work Reduction [CONDITIONAL]
+│   │   ├── ⏳ Examine Q8_1 sharing across identical inputs
+│   │   ├── ⏳ Examine 3-column gate/up fusion
+│   │   └── ⏳ Proceed only if measured graph gaps justify it
+│   │
+│   └── Success Criteria
+│       ├── No speculative decoding correctness regression
+│       ├── No unacceptable acceptance-rate reduction
+│       ├── Reproducible improvement across 3 benchmark runs
+│       ├── Compare latency per MTP cycle
+│       ├── Compare generated tokens per cycle
+│       └── Target: ≥50 tokens/s
+```
